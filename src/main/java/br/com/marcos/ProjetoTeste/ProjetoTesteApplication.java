@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ProjetoTesteApplication implements CommandLineRunner {
-@Autowired
-private SerieRepository repositorio;
+	@Autowired
+	private SerieRepository repositorio;
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoTesteApplication.class, args);
 	}

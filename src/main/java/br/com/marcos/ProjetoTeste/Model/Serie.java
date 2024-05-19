@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
+
 @Entity
 @Table(name = "series")
 public class Serie {
@@ -22,8 +23,8 @@ public class Serie {
     private Double avaliacao;
     private String quantidadeVotas;
     private String atores;
-    @Transient
-    private List<Episodios> episodios = new ArrayList<>();
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Episodio> episodios = new ArrayList<>();
 
     public Serie(){}
 
@@ -37,6 +38,14 @@ public class Serie {
         this.totalDeTemporada = dadosSerie.totalDeTemporada();
         this.avaliacao = OptionalDouble.of(Double.valueOf(dadosSerie.avaliacao())).orElse(0.0);
         this.quantidadeVotas = dadosSerie.quantidadeVotas();
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+    public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
+        this.episodios = episodios;
     }
 
     public String getAtores() {
@@ -114,14 +123,14 @@ public class Serie {
     public String toString() {
         return
                 ", titulo='" + titulo + '\'' +
-                ", atores='" + atores + '\'' +
-                ", anoTotal='" + anoTotal + '\'' +
-                ", genero=" + genero +
-                ", sinopse='" + sinopse + '\'' +
-                ", poster='" + poster + '\'' +
-                ", totalDeTemporada=" + totalDeTemporada +
-                ", avaliacao=" + avaliacao +
-                ", quantidadeVotas='" + quantidadeVotas + '\'' +
-                '}';
+                        ", atores='" + atores + '\'' +
+                        ", Episodios='" + episodios + '\'' +
+                        ", genero=" + genero +
+                        ", sinopse='" + sinopse + '\'' +
+                        ", poster='" + poster + '\'' +
+                        ", totalDeTemporada=" + totalDeTemporada +
+                        ", avaliacao=" + avaliacao +
+                        ", quantidadeVotas='" + quantidadeVotas + '\'' +
+                        '}';
     }
 }

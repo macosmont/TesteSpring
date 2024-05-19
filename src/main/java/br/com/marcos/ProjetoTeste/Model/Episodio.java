@@ -1,16 +1,26 @@
 package br.com.marcos.ProjetoTeste.Model;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class Episodios {
+@Entity
+@Table(name = "episodios")
+public class Episodio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer temporada;
     private String titulo;
     private Integer numeroEp;
     private LocalDate dataLancemento;
     private Double avalicao;
+    @ManyToOne
+    private Serie serie;
 
-    public Episodios(Integer numerotemporada, DadosEpisodios dadosEpisodios) {
+    public Episodio(){}
+
+    public Episodio(Integer numerotemporada, DadosEpisodios dadosEpisodios) {
         this.temporada = numerotemporada;
         this.titulo = dadosEpisodios.titulo();
         this.numeroEp = dadosEpisodios.numero();
@@ -26,6 +36,20 @@ public class Episodios {
         }
     }
 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -36,7 +60,7 @@ public class Episodios {
     public Integer getTemporada() {
         return temporada;
     }
-    public void setTemporada(String temporada) {
+    public void setTemporada(Integer temporada) {
         this.temporada = Integer.valueOf(temporada);
     }
 
@@ -65,8 +89,6 @@ public class Episodios {
     public String toString() {
         return "temporada= " + temporada +
                 ", titulo= " + titulo + '\'' +
-                ", numeroEp=" + numeroEp +
-                ", dataLancemento=" + dataLancemento +
-                ", avalicao=" + avalicao;
+                ", numeroEp=" + numeroEp;
     }
 }
